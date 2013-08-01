@@ -1,0 +1,22 @@
+{
+    "name":"Poco",
+    "version":"1.0.0",
+    "description":"Polygon Collision detection and simulation",
+    "main":"Gruntfile.js",
+    "scripts":{
+        "test":"echo \"Error: no test specified\" && exit 1"
+    },
+    "repository":{
+        "type":"git",
+        "url":"git@github.com:hongru/Poco.git"
+    },
+    "author":"hongru",
+    "license":"MIT",
+    "devDependencies":{
+        "grunt":"~0.4.1",
+        "grunt-contrib-uglify":"~0.2.0",
+        "grunt-contrib-watch":"~0.4.3",
+        "grunt-contrib-concat":"~0.3.0",
+        "grunt-contrib-cssmin":"~0.6.0"
+    }
+}
