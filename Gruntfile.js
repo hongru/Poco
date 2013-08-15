@@ -13,7 +13,7 @@ module.exports = function (grunt) {
                                  stripBanners:true
                              },
                              poco:{
-                                 src:['build/<%= pkg.version%>/poco.init-min.js', 'build/<%= pkg.version%>/poco.class-min.js','build/<%= pkg.version%>/poco.polygon-min.js','build/<%= pkg.version%>/poco.contact-min.js','build/<%= pkg.version%>/poco.world-min.js'],
+                                 src:['build/<%= pkg.version%>/poco.init-min.js', 'build/<%= pkg.version%>/poco.class-min.js','build/<%= pkg.version%>/poco.polygon-min.js', 'build/<%= pkg.version%>/poco.rectangle-min.js', 'build/<%= pkg.version%>/poco.circle-min.js', 'build/<%= pkg.version%>/poco.contact-min.js','build/<%= pkg.version%>/poco.world-min.js'],
                                  dest:'build/<%= pkg.version%>/poco.js'
                              }
                          },
@@ -26,6 +26,8 @@ module.exports = function (grunt) {
                                      'build/<%= pkg.version%>/poco.init-min.js':['src/poco.init.js'],
                                      'build/<%= pkg.version%>/poco.class-min.js':['src/poco.class.js'],
                                      'build/<%= pkg.version%>/poco.polygon-min.js':['src/poco.polygon.js'],
+                                     'build/<%= pkg.version%>/poco.rectangle-min.js':['src/poco.rectangle.js'],
+                                     'build/<%= pkg.version%>/poco.circle-min.js':['src/poco.circle.js'],
                                      'build/<%= pkg.version%>/poco.contact-min.js':['src/poco.contact.js'],
                                      'build/<%= pkg.version%>/poco.world-min.js':['src/poco.world.js']
                                  }

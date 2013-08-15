@@ -62,6 +62,9 @@ window.requestAnimFrame = (function(){
     function range (a, b) {
         return (a + Math.random() * (b-a));
     }
+    function randomColor () {
+        return 'rgb('+Math.round(range(0,255))+', '+Math.round(range(0,255))+', '+Math.round(range(0,255))+')';
+    }
     function createPoly (n, a, b, c) {
         n = n < 3 ? 3 : n;
         var p = [], nn = 360/n, total = 0;
@@ -150,8 +153,8 @@ window.requestAnimFrame = (function(){
         canvas.addEventListener('click', function () {
             //createPoly(Math.round(range(3,6)), 50, 50, 'rgb('+Math.round(range(0,255))+', '+Math.round(range(0,255))+', '+Math.round(range(0,255))+')');
             Math.random() > 0.5 
-                ? createRect(100, 50, 'rgb('+Math.round(range(0,255))+', '+Math.round(range(0,255))+', '+Math.round(range(0,255))+')') 
-                : createCircle('rgb('+Math.round(range(0,255))+', '+Math.round(range(0,255))+', '+Math.round(range(0,255))+')');
+                ? createRect(100, 50, randomColor())
+                : createCircle(randomColor());
             
         }, false);
         
@@ -185,10 +188,17 @@ window.requestAnimFrame = (function(){
             ctx.translate(rb.pos[0], rb.pos[1]);
             ctx.rotate(rb.angle);
 
-            if (rb.type == 'aaa') {
+            if (rb.type == 'circle') {
                 ctx.beginPath();
-                
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, rb.radius, 0, 2*Math.PI);
                 ctx.closePath();
+                
+                ctx.fillStyle = rb.color;
+                ctx.fill();
+                
+                ctx.strokeStyle = '#000';
+                ctx.stroke();
             } else {
                 ctx.beginPath();
                 ctx.moveTo(rb.points[0][0], rb.points[0][1]);
