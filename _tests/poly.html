@@ -5,6 +5,8 @@
 <script src="../src/poco.init.js"></script>
 <script src="../src/poco.class.js"></script>
 <script src="../src/poco.polygon.js"></script>
+<script src="../src/poco.rectangle.js"></script>
+<script src="../src/poco.circle.js"></script>
 <script src="../src/poco.contact.js"></script>
 <script src="../src/poco.world.js"></script>
 
@@ -77,6 +79,23 @@ window.requestAnimFrame = (function(){
         if (c) poly.color = c;
         world.addObject(poly);
     }
+    function createRect (w, h, c) {
+        var rect = new Poco.Rect({
+            pos: [range(canvas.width*0.2, canvas.width*0.8), -60],
+            width: w,
+            height: h
+        });
+        if (c) rect.color = c;
+        world.addObject(rect);
+    }
+    function createCircle (c) {
+        var circle = new Poco.Circle({
+            pos: [range(canvas.width*0.2, canvas.width*0.8), -60],
+            radius: range(30, 50)
+        });
+        circle.color = c;
+        world.addObject(circle);
+    }
     
     function initObjs () {
         canvas.width = window.innerWidth;
@@ -129,7 +148,11 @@ window.requestAnimFrame = (function(){
             initObjs();
         }, false);
         canvas.addEventListener('click', function () {
-            createPoly(Math.round(range(3,6)), 50, 50, 'rgb('+Math.round(range(0,255))+', '+Math.round(range(0,255))+', '+Math.round(range(0,255))+')');
+            //createPoly(Math.round(range(3,6)), 50, 50, 'rgb('+Math.round(range(0,255))+', '+Math.round(range(0,255))+', '+Math.round(range(0,255))+')');
+            Math.random() > 0.5 
+                ? createRect(100, 50, 'rgb('+Math.round(range(0,255))+', '+Math.round(range(0,255))+', '+Math.round(range(0,255))+')') 
+                : createCircle('rgb('+Math.round(range(0,255))+', '+Math.round(range(0,255))+', '+Math.round(range(0,255))+')');
+            
         }, false);
         
         run();
@@ -162,15 +185,21 @@ window.requestAnimFrame = (function(){
             ctx.translate(rb.pos[0], rb.pos[1]);
             ctx.rotate(rb.angle);
 
-            ctx.beginPath();
-            ctx.moveTo(rb.points[0][0], rb.points[0][1]);
-            for (var c = 1; c < rb.vCount; c ++) {
-                ctx.lineTo(rb.points[c][0], rb.points[c][1]);
+            if (rb.type == 'aaa') {
+                ctx.beginPath();
+                
+                ctx.closePath();
+            } else {
+                ctx.beginPath();
+                ctx.moveTo(rb.points[0][0], rb.points[0][1]);
+                for (var c = 1; c < rb.vCount; c ++) {
+                    ctx.lineTo(rb.points[c][0], rb.points[c][1]);
+                }
+                ctx.lineTo(rb.points[0][0], rb.points[0][1]);
+                ctx.closePath();
+                ctx.fillStyle = rb.color ? rb.color : (rb.invMass ? '#345' : '#ccc');
+                ctx.fill();
             }
-            ctx.lineTo(rb.points[0][0], rb.points[0][1]);
-            ctx.closePath();
-            ctx.fillStyle = rb.color ? rb.color : (rb.invMass ? '#345' : '#ccc');
-            ctx.fill();
 
             ctx.restore();
 		}

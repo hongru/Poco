@@ -1,52 +1,55 @@
 //Poco.Polygon
 ;(function (Poco) {
     
-    var Polygon = new Poco.Class(function (opt) {
-        var _d = {
-            pos: null,
-            points: null,
-            invMass: null,
-            angularVel: 0,
-            angle: 0,
-            vel: [0, 0]
-        };
-        
-        Poco.mix(this, Poco.mix(_d, (opt || {})));
-        this.pos = (typeof this.x == 'number' && typeof this.y == 'number') ? [this.x, this.y] : this.pos;
-        
-        this.matrix          = [0, 0, 0, 0, 0, 0];
-		this.matrixNextFrame = [0, 0, 0, 0, 0, 0];
-		this.motionBounds    = [0, 0, 0, 0, 0, 0];
+    var Polygon = new Poco.Class({
+        initialize: function (opt) {
+            var _d = {
+                pos: null,
+                points: null,
+                invMass: null,
+                angularVel: 0,
+                angle: 0,
+                vel: [0, 0]
+            };
+            
+            Poco.mix(this, Poco.mix(_d, (opt || {})));
+            this.pos = (typeof this.x == 'number' && typeof this.y == 'number') ? [this.x, this.y] : this.pos;
+            
+            this.matrix          = [0, 0, 0, 0, 0, 0];
+            this.matrixNextFrame = [0, 0, 0, 0, 0, 0];
+            this.motionBounds    = [0, 0, 0, 0, 0, 0];
 
-        this.normals = [];
-        this.vCount = this.points.length;
-        
-        for (var i = 0; i < this.vCount; i++ ) {
-			var a = this.points[i];
-			var b = this.points[(i + 1) % this.vCount];
-			var x = b[0] - a[0];
-			var y = b[1] - a[1];
-			var len = Math.sqrt(x * x + y * y);
-			this.normals[i] = [-y / len, x / len];
-		}
-        
-        // world points
-		this.worldSpaceNormals = [];
-		this.worldSpacePoints  = [];
-		for (var i = 0; i < this.vCount; i++ ) {
-			this.worldSpaceNormals[i] = [0, 0];
-			this.worldSpacePoints[i]  = [0, 0];
-		}
-        
-        if (this.invMass == null) this.invMass = this.area();
-        // calculate inverse inertia tensor
-		this.invI = (this.invMass > 0) ? 1 / ((1 / this.invMass) * this.area() / 6) : 0;
+            this.normals = [];
+            this.vCount = this.points.length;
+            
+            for (var i = 0; i < this.vCount; i++ ) {
+                var a = this.points[i];
+                var b = this.points[(i + 1) % this.vCount];
+                var x = b[0] - a[0];
+                var y = b[1] - a[1];
+                var len = Math.sqrt(x * x + y * y);
+                this.normals[i] = [-y / len, x / len];
+            }
+            
+            // world points
+            this.worldSpaceNormals = [];
+            this.worldSpacePoints  = [];
+            for (var i = 0; i < this.vCount; i++ ) {
+                this.worldSpaceNormals[i] = [0, 0];
+                this.worldSpacePoints[i]  = [0, 0];
+            }
+            
+            if (this.invMass == null) this.invMass = this.area();
+            // calculate inverse inertia tensor
+            this.invI = (this.invMass > 0) ? 1 / ((1 / this.invMass) * this.area() / 6) : 0;
 
-		// contact points
-		this.c1 = [0, 0];
-		this.c0 = [0, 0];
-        
-    }).methods({
+            // contact points
+            this.c1 = [0, 0];
+            this.c0 = [0, 0];
+            
+            this.type = this instanceof Poco.Circle ? 'circle' : this instanceof Poco.Rect ? 'rect' : 'polygon';
+            
+        },
         featurePairJudgement : function (that, fpc) {
             var closest, closestI, closestD, wsN, v, d, dx, dy, lsp, wsp, mfp0, mfp1, dist, centreDist;
             for (var edge = 0; edge < this.vCount; edge++) {
