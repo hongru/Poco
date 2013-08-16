@@ -55,7 +55,8 @@ window.requestAnimFrame = (function(){
 ;(function () {
     
     var world = new Poco.World({
-        kGravity: 25
+        kGravity: 25,
+        kAirFriction: 0.96
     }),
         canvas,
         ctx,
