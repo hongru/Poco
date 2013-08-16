@@ -44,6 +44,26 @@ run();
 
 ```
 
+```javascript
+// rect
+//Inherit from Poco.Polygon
+var rect = new Poco.Rect({
+    pos: [100, 50],
+    width: 60,
+    height: 50
+    ...
+});
+```
+
+```javascript
+//circle
+var circle = new Poco.Circle({
+    pos: [300, 10],
+    radius: 40
+    ...
+});
+```
+
 #Examples
 
-<a href="http://hongru.github.io/proj/poco/poly.html"><img width="300" height="300" alt="" src="http://hongru.github.com/images/readme/poco.jpg" /></a>    
+<a href="http://hongru.github.io/Poco/examples/poly.html"><img width="300" height="300" alt="" src="http://hongru.github.com/images/readme/poco.jpg" /></a>    
