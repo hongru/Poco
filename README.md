@@ -9,7 +9,8 @@ Polygon Collision detection and simulation
 var wrold = new Poco.World({
     kTimeStep: 1/60, //time step : default 1/60
     kGravity: 25,    //Gravity of world: default: 25
-    kFriction: 0.3   // Friction of objects: default: 0.3
+    kFriction: 0.3,   // Friction of objects: default: 0.3
+    kAirFriction: 0.99 // Air Friction: default: 0.99
 });
 
 // add objects
@@ -19,7 +20,8 @@ var ployA = new Poco.Polygon({
     invMass: 20, // inverse inertia tensor of object, default: the area of poly
     angularVel: 0, // rotate velocity of poly; default: 0
     angle: 0,      // initial rotate angle of poly; default: 0
-    vel: [0, 0]    // initial velocity; default: [0,0]
+    vel: [0, 0],    // initial velocity; default: [0,0]
+    elasticity: 1   // elasticity of object; default: 1
 });
 
 var floor = new Poco.Polygon({
