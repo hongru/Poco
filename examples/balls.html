@@ -68,11 +68,15 @@ window.requestAnimFrame = (function(){
         canvas.height = window.innerHeight;
         
         addFloor();
+        //addBan();
         
         canvas.addEventListener('click', function (e) {
             world.addObject(new Poco.Circle({
                 radius: 20,
-                pos: [e.clientX, e.clientY]
+                pos: [e.clientX, e.clientY],
+                sCount: 30,
+                vel: [500, 0],
+                elasticity: 2
             }));
         }, false);
         
@@ -81,17 +85,24 @@ window.requestAnimFrame = (function(){
     
     function addFloor () {
         var floorC = new Poco.Polygon({
-            pos: [canvas.width/2, canvas.height - 60],
+            pos: [canvas.width/2, canvas.height - 160],
             points: [
-                [0, -100],
-                [0, 20],
+                [-canvas.width*0.2, -100],
+                [-canvas.width*0.2, 100],
+                [canvas.width*0.3, 100],
                 [canvas.width*0.3, 20],
-                [canvas.width*0.3, 0],
                 [canvas.width*0.1, -100]
             ],
             invMass: 0
         });
         world.addObject(floorC);
+    }
+    function addBan () {
+        world.addObject(new Poco.Rect({
+            pos: [canvas.width*3/5, 0],
+            width: canvas.width*0.4,
+            height: 40
+        }));
     }
     
     function run () {

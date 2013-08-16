@@ -9,7 +9,8 @@
                 invMass: null,
                 angularVel: 0,
                 angle: 0,
-                vel: [0, 0]
+                vel: [0, 0],
+                elasticity: 1
             };
             
             Poco.mix(this, Poco.mix(_d, (opt || {})));

@@ -1,1 +1,1 @@
-/*2013-08-15-hongru*/!function(a){var b=a.Polygon.extend({initialize:function(a){if("number"==typeof a.radius){a.sCount=a.sCount||36;for(var b=[],c=0;c<a.sCount;c++){var d=2*c*Math.PI/a.sCount;b.push([a.radius*Math.sin(d),a.radius*Math.cos(d)])}a.points=b}this.supr(a)}});a.Circle=b}(Poco);
+/*2013-08-16-hongru*/!function(a){var b=a.Polygon.extend({initialize:function(a){if("number"==typeof a.radius){a.sCount=a.sCount||36;for(var b=[],c=0;c<a.sCount;c++){var d=2*c*Math.PI/a.sCount;b.push([a.radius*Math.sin(d),a.radius*Math.cos(d)])}a.points=b}this.supr(a)}});a.Circle=b}(Poco);

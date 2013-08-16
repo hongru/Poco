@@ -6,7 +6,8 @@
             numIterations: 10,
             kTimeStep: 1/60,
             kGravity: 25,
-            kFriction: 0.3
+            kFriction: 0.3,
+            kAirFriction: 0.99
         };
         
         Poco.mix(this, Poco.mix(_d, (opt || {})));
@@ -137,10 +138,10 @@
                         change = newImpulse - con.impulseN,
                         x = normal[0] * change, y = normal[1] * change;
                         // linear
-                        a.vel[0] += (x * a.invMass);
-                        a.vel[1] += (y * a.invMass);
-                        b.vel[0] -= (x * b.invMass);
-                        b.vel[1] -= (y * b.invMass);
+                        a.vel[0] += (x * a.invMass * a.elasticity);
+                        a.vel[1] += (y * a.invMass * a.elasticity);
+                        b.vel[0] -= (x * b.invMass * b.elasticity);
+                        b.vel[1] -= (y * b.invMass * b.elasticity);
                         // angular
                         a.angularVel += (x * ra[0] + y * ra[1]) * a.invI;
                         b.angularVel -= (x * rb[0] + y * rb[1]) * b.invI;
@@ -158,6 +159,7 @@
                         a.vel[1] += (y * a.invMass);
                         b.vel[0] -= (x * b.invMass);
                         b.vel[1] -= (y * b.invMass);
+                        
                         // angular
                         a.angularVel += (x * ra[0] + y * ra[1]) * a.invI;
                         b.angularVel -= (x * rb[0] + y * rb[1]) * b.invI;
@@ -169,7 +171,8 @@
         integrate: function () {
             var objects = this.objects,
                 kGravity = this.kGravity,
-                kTimeStep = this.kTimeStep;
+                kTimeStep = this.kTimeStep,
+                kAir = this.kAirFriction;
                 
             for (var i = 0, rb; rb = objects[i++];) {
                 if (rb.drag) {
@@ -178,7 +181,7 @@
                     rb.vel[1] = (pointer.Y - rb.pos[1]) * 10;
                 } else {
                     // horizontal stability
-                    rb.vel[0] *= 0.98;
+                    rb.vel[0] *= kAir;
                     // gravity
                     if (rb.invMass > 0) rb.vel[1] += kGravity;
                 }
