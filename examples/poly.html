@@ -54,7 +54,9 @@ window.requestAnimFrame = (function(){
 
 ;(function () {
     
-    var world = new Poco.World(),
+    var world = new Poco.World({
+        kGravity: 25
+    }),
         canvas,
         ctx,
         dropc = 0;
@@ -179,7 +181,8 @@ window.requestAnimFrame = (function(){
 			dropc++;
 			setTimeout(function() {
 				dropc--;
-                createPoly(parseInt(Math.random()*9), rr(50), rr(60));
+                var ss = Math.random();
+                ss < 0.33 ? createPoly(parseInt(Math.random()*9), rr(50), rr(60)) : ss < 0.66 ? createRect(100, 50, randomColor()) : createCircle(randomColor());
 			}, i * 500);
 
 		}
